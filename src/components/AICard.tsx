@@ -5,7 +5,7 @@ export function AICard () {
         transistion duration-200 ease-in-out
         hover:bg-gray-300 active:scale-95 cursor-pointer
         sm:h-50 sm:w-50 
-        md:h-40 md:w-70
+        md:h-50 md:w-70
         lg:h-60 lg:w-70">
         </div>
     )
