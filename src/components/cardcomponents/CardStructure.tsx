@@ -11,10 +11,10 @@ export function CardStructure({ title }: { title: string }) {
   const { subjects } = useCardContext();
 
   return (
-    <div className="flex">
+    <div className="flex justify-center">
       <div
         className="
-        bg-gray-100 border border-black rounded-lg p-2 mt-12 ml-5 h-30 w-70 
+        bg-gray-100 border border-black rounded-lg p-2 mt-12 h-40 w-70 
         sm:w-100 sm:h-50
         md:w-140 
         lg:w-200 lg:h-60 lg:ml-20
@@ -30,15 +30,17 @@ export function CardStructure({ title }: { title: string }) {
         </div>
 
         {/* 🚀 Carousel for subjects */}
-        <div className="mt-4">
+        <div className="flex justify-center items-center">
           <Swiper
             modules={[Navigation]}
             navigation
-            spaceBetween={16}
-            slidesPerView={2} // show 2 at a time on small screens
+            spaceBetween={4}
+            slidesPerView={2}
+            centeredSlides={true}
+            centeredSlidesBounds={true}
             breakpoints={{
-              640: { slidesPerView: 3 },
-              1024: { slidesPerView: 4 },
+              640: { slidesPerView: 3, spaceBetween: 8, centeredSlides: false },
+              1024: { slidesPerView: 4, spaceBetween: 12, centeredSlides: false },
             }}
           >
             {subjects.map((subject, index) => (
@@ -50,7 +52,6 @@ export function CardStructure({ title }: { title: string }) {
         </div>
       </div>
 
-      {/* Keep your AI Card */}
       <AICard />
     </div>
   );

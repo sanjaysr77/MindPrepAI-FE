@@ -11,7 +11,7 @@ export function HomePage() {
         { image: "/database.svg", title: "DBMS" },
         { image: "/OOPS.png", title: "OOPS" },
         { image: "/OS.jpeg", title: "OS" },
-        { image: "/networks.jpeg", title: "Networks" }
+        { image: "/networks.jpeg", title: "Networks" },
     ]
 
     const companies = [
