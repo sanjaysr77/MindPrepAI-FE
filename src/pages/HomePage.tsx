@@ -8,19 +8,13 @@ export function HomePage() {
         { image: "/OOPS.png", title: "OOPS" },
         { image: "/OS.jpeg", title: "OS" },
         { image: "/networks.jpeg", title: "Networks" },
-        { image: "/database.svg", title: "DBMS" },
-        { image: "/OOPS.png", title: "OOPS" },
-        { image: "/OS.jpeg", title: "OS" },
-        { image: "/networks.jpeg", title: "Networks" },
     ]
 
     const companies = [
         { image: "/infosys.png", title: "Infosys" },
         { image: "/wipro.png", title: "Wipro" },
-        { image: "/TCS.png", title: "TCS" },
-        { image: "/infosys.png", title: "Infosys" },
-        { image: "/wipro.png", title: "Wipro" },
-        { image: "/TCS.png", title: "TCS" }
+        { image: "/TCS.png", title: "TCS" },  
+        { image: "/capegemini.png", title: "Capegemini" },        
     ];
 
     return (

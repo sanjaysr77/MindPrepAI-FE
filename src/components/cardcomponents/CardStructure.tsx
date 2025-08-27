@@ -11,32 +11,32 @@ export function CardStructure({ title }: { title: string }) {
   const { subjects } = useCardContext();
 
   return (
-    <div className="flex justify-center">
+    <div className="flex justify-center items-center">
       <div
         className="
         bg-gray-100 border border-black rounded-lg p-2 mt-12 h-40 w-70 
         sm:w-100 sm:h-50
         md:w-140 
-        lg:w-200 lg:h-60 lg:ml-20
+        lg:w-200 lg:h-60 
       "
       >
         <div className="flex items-center justify-center">
           <h2
             className="text-lg font-bold text-center
-          lg:text-2xl"
+          lg:text-2xl mb-1"
           >
             {title}
           </h2>
         </div>
 
-        {/* 🚀 Carousel for subjects */}
         <div className="flex justify-center items-center">
           <Swiper
             modules={[Navigation]}
             navigation
-            spaceBetween={4}
+            spaceBetween={-30}
             slidesPerView={2}
             centeredSlides={true}
+            centerInsufficientSlides={true}
             centeredSlidesBounds={true}
             breakpoints={{
               640: { slidesPerView: 3, spaceBetween: 8, centeredSlides: false },
