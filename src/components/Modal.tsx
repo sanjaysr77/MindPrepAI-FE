@@ -10,8 +10,10 @@ export function Modal({ isOpen, onClose, onStart, subjectTitle, instructions }: 
     if (!isOpen) return null;
 
     return (
-        <div className="fixed inset-0 bg-black/90 flex items-center justify-center z-50">
-            <div className="bg-white rounded-2xl p-6 max-w-md w-full mx-4 border-4 border-red-800">
+        <div className="fixed inset-0 bg-black/90 flex items-center justify-center z-50 cursor-pointer"
+        onClick={onClose}>
+            <div className="bg-white rounded-2xl p-6 max-w-md w-full mx-4 border-4 border-red-800"
+            onClick={(e) => e.stopPropagation()}>
                 <h2 className="text-xl font-bold mb-4 text-center">{subjectTitle}</h2>
 
                 <div className="mb-6">
