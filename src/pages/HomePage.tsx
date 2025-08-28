@@ -14,7 +14,7 @@ export function HomePage() {
         { image: "/infosys.png", title: "Infosys" },
         { image: "/wipro.png", title: "Wipro" },
         { image: "/TCS.png", title: "TCS" },  
-        { image: "/capegemini.png", title: "Capegemini" },        
+        { image: "/capegemini.png", title: "Capgemini" },        
     ];
 
     return (

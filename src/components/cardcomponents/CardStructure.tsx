@@ -6,9 +6,41 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
 import "swiper/css/navigation";
 import { Navigation } from "swiper/modules";
+import { useState } from "react";
+import { Modal } from "../Modal";
 
 export function CardStructure({ title }: { title: string }) {
   const { subjects } = useCardContext();
+  const [modalOpen, setModalOpen] = useState(false);
+  const [selectedSubject, setSelectedSubject] = useState<string>('');
+
+  function handleCardClick (title: string) {
+    setSelectedSubject(title);
+    setModalOpen(true);
+  }
+
+  function handleCloseModal () {
+    setSelectedSubject('');
+    setModalOpen(false);
+  }
+
+  function handleStart () {
+    setModalOpen(false);
+    setSelectedSubject('')
+    console.log(`Starting ${selectedSubject}`);
+  }
+
+  const getInstructions = (subject: string) => {
+    const instructionsMap: Record<string, string> = {
+      'DBMS': 'You will be tested on Database Management System concepts including SQL queries, normalization, and database design principles.',
+      'OOPS': 'Test your knowledge of Object-Oriented Programming concepts including inheritance, polymorphism, encapsulation, and abstraction.',
+      'OS': 'Challenge yourself with Operating System topics like process management, memory management, and file systems.',
+      'Networks': 'Explore computer networking concepts including protocols, network architecture, and data transmission.'
+    };
+    
+    return instructionsMap[subject] || `Click Start to begin the quiz commonly asked in ${subject} roles.`;
+  };
+
 
   return (
     <div className="flex justify-center items-center">
@@ -45,7 +77,7 @@ export function CardStructure({ title }: { title: string }) {
           >
             {subjects.map((subject, index) => (
               <SwiperSlide key={index}>
-                <SmallCard image={subject.image} title={subject.title} />
+                <SmallCard image={subject.image} title={subject.title} onClick = {handleCardClick} />
               </SwiperSlide>
             ))}
           </Swiper>
@@ -53,6 +85,12 @@ export function CardStructure({ title }: { title: string }) {
       </div>
 
       <AICard />
+      <Modal
+      isOpen = {modalOpen}
+      subjectTitle={selectedSubject} 
+      onClose={handleCloseModal}
+      onStart={handleStart}
+      instructions={getInstructions(selectedSubject)}/>
     </div>
   );
 }
