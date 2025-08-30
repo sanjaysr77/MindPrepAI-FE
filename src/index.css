@@ -1,8 +1,15 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&family=Roboto:wght@400;500&display=swap");
 @import "tailwindcss";
+
+@theme {
+  --font-poppins: "Poppins", sans-serif;
+  --font-roboto: "Roboto", sans-serif;
+}
 
 body {
   margin: 0;
 }
+
 
 /* Swiper navigation: responsive, rounded, modern */
 .swiper-button-prev,
@@ -35,7 +42,4 @@ body {
 .swiper-button-prev { left: -6px; }
 .swiper-button-next { right: -6px; }
 
-/* :root {
-  font-family: "Poppins", sans-serif;
-  color-scheme: dark;
-} */
+
