@@ -1,18 +1,22 @@
 import { AICard } from "./AICard";
 import { useCardContext } from "./CardContext";
 import { SmallCard } from "./SmallCard";
-
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
 import "swiper/css/navigation";
 import { Navigation } from "swiper/modules";
 import { useState } from "react";
 import { Modal } from "../Modal";
+import toast from "react-hot-toast";
+import { BACKEND_URL } from "../../config/config";
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 export function CardStructure({ title }: { title: string }) {
   const { subjects } = useCardContext();
   const [modalOpen, setModalOpen] = useState(false);
   const [selectedSubject, setSelectedSubject] = useState<string>('');
+  const navigate = useNavigate();
 
   function handleCardClick (title: string) {
     setSelectedSubject(title);
@@ -24,10 +28,34 @@ export function CardStructure({ title }: { title: string }) {
     setModalOpen(false);
   }
 
-  function handleStart () {
+  async function handleStart () {
+
+    if (!selectedSubject) {
+    alert("Please select a subject");
+    return;
+  }
     setModalOpen(false);
-    setSelectedSubject('')
     console.log(`Starting ${selectedSubject}`);
+
+    const subjectPath = selectedSubject.toLowerCase();
+    const toastId = toast.loading("Loading quiz...")
+
+    try {
+      const response = await axios.get(`${BACKEND_URL}/v1/quiz/${subjectPath}`, {
+        headers: {
+          Authorization: localStorage.getItem("token"),
+        }
+    });
+      const questions = response.data;
+
+      toast.success("Quiz loaded!", {id: toastId})
+
+      navigate(`/${subjectPath}`, {state:{questions}});
+    }
+    catch(err){
+      toast.error("Failed to load quiz", {id: toastId})
+      console.error(err);
+    }
   }
 
   const getInstructions = (subject: string) => {
