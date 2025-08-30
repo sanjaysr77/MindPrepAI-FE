@@ -43,7 +43,7 @@ export function CardStructure({ title }: { title: string }) {
     try {
       const response = await axios.get(`${BACKEND_URL}/v1/quiz/${subjectPath}`, {
         headers: {
-          Authorization: localStorage.getItem("token"),
+          token: localStorage.getItem("token"),
         }
     });
       const questions = response.data;
