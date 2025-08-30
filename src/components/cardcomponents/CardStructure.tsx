@@ -46,7 +46,7 @@ export function CardStructure({ title }: { title: string }) {
     <div className="flex justify-center items-center">
       <div
         className="
-        bg-gray-100 border border-black rounded-lg p-2 mt-12 h-40 w-70 
+        bg-black ring-4 ring-white rounded-lg p-2 mt-12 h-40 w-70 
         sm:w-100 sm:h-50
         md:w-140 
         lg:w-200 lg:h-60 
@@ -54,7 +54,7 @@ export function CardStructure({ title }: { title: string }) {
       >
         <div className="flex items-center justify-center">
           <h2
-            className="text-lg font-bold text-center
+            className="text-white text-xl font-bold text-center
           lg:text-2xl mb-1"
           >
             {title}
