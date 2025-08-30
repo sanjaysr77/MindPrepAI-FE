@@ -2,7 +2,7 @@ export function Signin() {
   return (
     <div className="fixed inset-0 flex items-center justify-center">
       <div className="bg-black border border-white w-90 h-65 rounded-4xl text-white p-6 ring-4 ring-white/90">
-        <h1 className="flex justify-center font-poppins font-bold text-xl">Sign into your Account</h1>
+        <h1 className="flex justify-center font-poppins font-bold text-xl">Sign in to your Account</h1>
         <div className="flex flex-col">
             <input className="flex font-poppins p-2 mt-5 border rounded-lg" placeholder="Enter your Email" />
             <input type="password" className="font-poppins p-2 mt-5 border rounded-lg type" placeholder="Password" />
