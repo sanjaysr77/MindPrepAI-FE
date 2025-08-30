@@ -21,6 +21,19 @@ export function Signup() {
             return;
         }
 
+        if (email.length < 3 || email.length > 50) {
+            toast.error("Email must be between 3 and 50 characters.");
+            return;
+        }
+        if (username.length < 3 || username.length > 20) {
+            toast.error("Username must be between 3 and 20 characters.");
+            return;
+        }
+        if (password.length < 3 || password.length > 20) {
+            toast.error("Password must be between 3 and 20 characters.");
+            return;
+        }
+
         try {
             const res = await axios.post(BACKEND_URL + "/signup", {
                 email,
