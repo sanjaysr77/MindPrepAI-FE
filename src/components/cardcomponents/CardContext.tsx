@@ -5,9 +5,16 @@ type Subject = {
     title: string;
 }
 
+type AI = {
+    title2: string;
+    inputBox: ReactNode;
+}
+
 type CardContextType = {
     subjects: Subject [];
+    GENAI:AI;
 }
+
 
 const CardContext = createContext<CardContextType | undefined>(undefined)
 
@@ -19,9 +26,9 @@ export function useCardContext () {
     return context;
 }
 
-export function CardProvider ({children, subjects}: {children: ReactNode; subjects: Subject[] }) {
+export function CardProvider ({children, subjects, GENAI}: {children: ReactNode; subjects: Subject[]; GENAI: AI }) {
     return (
-        <CardContext.Provider value ={{subjects}}>
+        <CardContext.Provider value ={{subjects, GENAI}}>
             {children}
         </CardContext.Provider>
     )

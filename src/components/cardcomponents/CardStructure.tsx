@@ -13,27 +13,27 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 
 export function CardStructure({ title }: { title: string }) {
-  const { subjects } = useCardContext();
+  const { subjects, GENAI } = useCardContext();
   const [modalOpen, setModalOpen] = useState(false);
   const [selectedSubject, setSelectedSubject] = useState<string>('');
   const navigate = useNavigate();
 
-  function handleCardClick (title: string) {
+  function handleCardClick(title: string) {
     setSelectedSubject(title);
     setModalOpen(true);
   }
 
-  function handleCloseModal () {
+  function handleCloseModal() {
     setSelectedSubject('');
     setModalOpen(false);
   }
 
-  async function handleStart () {
+  async function handleStart() {
 
     if (!selectedSubject) {
-    alert("Please select a subject");
-    return;
-  }
+      alert("Please select a subject");
+      return;
+    }
     setModalOpen(false);
     console.log(`Starting ${selectedSubject}`);
 
@@ -45,15 +45,15 @@ export function CardStructure({ title }: { title: string }) {
         headers: {
           token: localStorage.getItem("token"),
         }
-    });
+      });
       const questions = response.data;
 
-      toast.success("Quiz loaded!", {id: toastId})
+      toast.success("Quiz loaded!", { id: toastId })
 
-      navigate(`/${subjectPath}`, {state:{questions, subjectPath}});
+      navigate(`/${subjectPath}`, { state: { questions, subjectPath } });
     }
-    catch(err){
-      toast.error("Failed to load quiz", {id: toastId})
+    catch (err) {
+      toast.error("Failed to load quiz", { id: toastId })
       console.error(err);
     }
   }
@@ -65,7 +65,7 @@ export function CardStructure({ title }: { title: string }) {
       'OS': 'Challenge yourself with Operating System topics like process management, memory management, and file systems.',
       'Networks': 'Explore computer networking concepts including protocols, network architecture, and data transmission.'
     };
-    
+
     return instructionsMap[subject] || `Click Start to begin the quiz commonly asked in ${subject} roles.`;
   };
 
@@ -105,20 +105,24 @@ export function CardStructure({ title }: { title: string }) {
           >
             {subjects.map((subject, index) => (
               <SwiperSlide key={index}>
-                <SmallCard image={subject.image} title={subject.title} onClick = {handleCardClick} />
+                <SmallCard image={subject.image} title={subject.title} onClick={handleCardClick} />
               </SwiperSlide>
             ))}
           </Swiper>
         </div>
       </div>
 
-      <AICard />
+      <AICard
+        title={GENAI.title2}
+        inputBox={<input type="text" className="border p-2 rounded" />}
+      />
+
       <Modal
-      isOpen = {modalOpen}
-      subjectTitle={selectedSubject} 
-      onClose={handleCloseModal}
-      onStart={handleStart}
-      instructions={getInstructions(selectedSubject)}/>
+        isOpen={modalOpen}
+        subjectTitle={selectedSubject}
+        onClose={handleCloseModal}
+        onStart={handleStart}
+        instructions={getInstructions(selectedSubject)} />
     </div>
   );
 }
