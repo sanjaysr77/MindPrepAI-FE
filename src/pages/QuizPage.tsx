@@ -7,14 +7,14 @@ interface Question {
   _id: string;
   question: string;
   options: string[];
-  difficulty: string;
-  topic: string;
+  // difficulty: string;
+  // topic: string;
 }
 
 interface QuizState {
   currentIndex: number;
-  answers: Record<string, string>;      
-  correctness: Record<string, boolean>; 
+  answers: Record<string, string>;
+  correctness: Record<string, boolean>;
   correctAnswers: Record<string, string>;
   showResults: boolean;
   score: number;
@@ -57,6 +57,7 @@ export function QuizPage() {
       }, {
         headers: { token }
       });
+      console.log("res", res)
 
       const { correctness, correctAnswers } = res.data; // e.g. { qid1: true, qid2: false, ... }
       const score = Object.values(correctness).filter(Boolean).length;
@@ -108,10 +109,10 @@ export function QuizPage() {
 
   if (quizState.showResults) {
     return (
-      <div className="min-h-screen bg-blue-50 p-6">
+      <div className="min-h-screen p-6">
         <div className="max-w-4xl mx-auto space-y-6">
-          <h1 className="text-4xl font-bold text-center">🎉 Quiz Complete! 🎉</h1>
-          <p className="text-center text-2xl">
+          <h1 className="text-4xl text-white font-bold text-center">🎉 Quiz Complete! 🎉</h1>
+          <p className="text-white text-center text-2xl">
             Score: {quizState.score}/{questions.length} (
             {Math.round((quizState.score / questions.length) * 100)}%)
           </p>
@@ -157,7 +158,7 @@ export function QuizPage() {
   };
 
   return (
-    <div className="min-h-screen p-6 flex justify-center items-start">
+    <div className="min-h-screen p-6 flex justify-center items-center">
       <div className="w-full max-w-3xl space-y-6">
         <div className="p-4 bg-white rounded-xl shadow flex justify-between">
           <p>Question {quizState.currentIndex + 1} of {questions.length}</p>
@@ -171,7 +172,8 @@ export function QuizPage() {
               <button
                 key={idx}
                 onClick={() => handleAnswerSelect(option)}
-                className={`w-full text-left p-3 rounded-xl border-2 transition ${getOptionClass(option)}`}
+                className={`w-full text-left p-3 rounded-xl border-2 transition ${getOptionClass(option)}
+                cursor-pointer active:scale-95`}
               >
                 {option}
               </button>
@@ -182,14 +184,16 @@ export function QuizPage() {
             <button
               onClick={handlePrevious}
               disabled={quizState.currentIndex === 0}
-              className="px-4 py-2 bg-gray-400 text-white rounded-xl disabled:opacity-50"
+              className="px-4 py-2 bg-gray-600 text-white rounded-xl disabled:opacity-50 cursor-pointer transistion duration-200 ease-in-out
+            hover:bg-gray-900 active:scale-95"
             >
               Previous
             </button>
 
             <button
               onClick={handleNext}
-              className="px-4 py-2 bg-blue-600 text-white rounded-xl"
+              className="px-4 py-2 bg-blue-600 text-white rounded-xl cursor-pointer transistion duration-200 ease-in-out
+            hover:bg-blue-800 active:scale-95"
             >
               {quizState.currentIndex + 1 === questions.length ? "Finish" : "Next"}
             </button>
