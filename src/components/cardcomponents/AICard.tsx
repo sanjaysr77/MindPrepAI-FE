@@ -14,7 +14,7 @@ export function AICard({ title, inputBox }: MyComponentProps) {
         sm:h-50 sm:w-50 
         md:h-50 md:w-70
         lg:h-60 lg:w-70">
-            <p className="hidden sm:block text-white sm:text-xl md:text-xl md:mt-2 lg:text-2xl font-bold text-center mt-6">
+            <p className="hidden sm:block text-white sm:text-l md:text-xl md:mt-2 lg:text-2xl font-bold text-center mt-6 lg:mt-8">
                 {title}
             </p>
             <div className="hidden sm:flex sm:mt-2 md:mt-1 lg:mt-4 justify-center ">

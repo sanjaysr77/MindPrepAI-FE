@@ -5,6 +5,7 @@ import { Signup } from "./pages/Signup";
 import { Signin } from "./pages/Signin";
 import { Toaster } from "react-hot-toast";
 import { QuizPage } from "./pages/QuizPage";
+import { Report } from "./pages/Report";
 
 function App() {
   return (
@@ -16,6 +17,7 @@ function App() {
           <Route path="/signin" element={<Signin />} />
           <Route path="/dashboard" element={<HomePage />} />
           <Route path="/:subject" element={<QuizPage />} />
+          <Route path="/personalizedreport" element={<Report />} />
         </Routes>
       </Layout>
       <Toaster position="bottom-right" reverseOrder={false} />
