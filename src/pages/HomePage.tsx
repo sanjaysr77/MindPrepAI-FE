@@ -40,26 +40,30 @@ export function HomePage() {
         navigate("/signin");
     }
 
-    function goToReport () {
+    function goToReport() {
         navigate("/personalizedreport")
     }
 
-
     return (
         <div className="p-4 sm:p-6 lg:p-8">
-            <div className="flex justify-end">
-                <button className="text-black border border-white rounded-lg p-2 px-4 bg-white font-bold hover:bg-black hover:text-white cursor-pointer
-                transition duration-200 ease-in-out active:scale-95 mr-4"
-                onClick={goToReport}
-                >
-                    Personalized Report 
-                </button>
-                <button className="text-black border border-white rounded-lg p-2 px-4 bg-white font-bold hover:bg-black hover:text-white cursor-pointer
-                transition duration-200 ease-in-out active:scale-95"
-                onClick={logoutUser}
-                >
-                    Signout
-                </button>
+            <div className="flex justify-between items-center">
+                <div className="text-white text-4xl font-bold">
+                    MINDPREP AI
+                </div>
+                <div>
+                    <button className="text-black border border-white rounded-lg p-2 px-4 bg-white font-bold hover:bg-black hover:text-white cursor-pointer
+                    transition duration-200 ease-in-out active:scale-95 mr-4"
+                        onClick={goToReport}
+                    >
+                        Personalized Report
+                    </button>
+                    <button className="text-black border border-white rounded-lg p-2 px-4 bg-white font-bold hover:bg-black hover:text-white cursor-pointer
+                    transition duration-200 ease-in-out active:scale-95"
+                        onClick={logoutUser}
+                    >
+                        Signout
+                    </button>
+                </div>
             </div>
             <CardProvider subjects={subjects} GENAI={subjectwise}>
                 <CardStructure title="Subject Wise MCQ's" />

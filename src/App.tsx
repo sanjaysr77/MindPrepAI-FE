@@ -6,6 +6,7 @@ import { Signin } from "./pages/Signin";
 import { Toaster } from "react-hot-toast";
 import { QuizPage } from "./pages/QuizPage";
 import { Report } from "./pages/Report";
+import { ProtectedRoute } from "./pages/ProtectedRoute";
 
 function App() {
   return (
@@ -15,9 +16,12 @@ function App() {
           <Route path="/" element={<Navigate to="/dashboard" />} />
           <Route path="/signup" element={<Signup />} />
           <Route path="/signin" element={<Signin />} />
-          <Route path="/dashboard" element={<HomePage />} />
-          <Route path="/:subject" element={<QuizPage />} />
-          <Route path="/personalizedreport" element={<Report />} />
+          <Route element={<ProtectedRoute />}>
+            <Route path="/dashboard" element={<HomePage />} />
+            <Route path="/:subject" element={<QuizPage />} />
+            <Route path="/personalizedreport" element={<Report />} />
+          </Route>
+
         </Routes>
       </Layout>
       <Toaster position="bottom-right" reverseOrder={false} />
