@@ -1,5 +1,6 @@
 import { CardProvider } from "../components/cardcomponents/CardContext";
 import { CardStructure } from "../components/cardcomponents/CardStructure";
+import { ComingSoon } from "../components/ComingSoon";
 
 export function HomePage() {
 
@@ -26,7 +27,7 @@ export function HomePage() {
 
     const subjectwise = { title2: "Not able to find your subject ? Try our AI feature.", inputBox: <input type="text" className="placeholder-white border p-2 rounded" placeholder="Data Structures"/> };
 
-    const roleWise = { title2: "Not able to find your aspiring role ? Try our AI feature.", inputBox: <input type="text" className="border p-2 rounded" /> };
+    const roleWise = { title2: "Not able to find your role ? Try our AI feature.", inputBox: <input type="text" className="border p-2 rounded" /> };
 
     const companyWise = { title2: "Not able to find your company ? Try our AI feature.", inputBox: <input type="text"/> };
 
@@ -43,7 +44,9 @@ export function HomePage() {
             <CardProvider subjects={companies} GENAI={companyWise}>
                 <CardStructure title="Company Wise MCQ's" />
             </CardProvider>
-
+            <ComingSoon
+            text="Resume Analyzer"
+            image="/comingsoon.png" />
         </div>
     )
 }
