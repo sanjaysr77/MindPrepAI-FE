@@ -22,16 +22,26 @@ export function HomePage() {
 
     const roles = [
         { image: "/MERN.png", title: "MERN Stack" },
-        { image: "/React.png", title: "React" },
+        { image: "/angular.png", title: "Angular" },
         { image: "/java.png", title: "Java Full Stack" },
         { image: "/python.png", title: "Python Full Stack" },
     ]
 
-    const subjectwise = { title2: "Not able to find your favourite subject ? Try our AI feature.", inputBox: <input type="text" className="placeholder-white border p-2 rounded" placeholder="Data Structures" /> };
+    const subjectwise = {
+        title2: "Not able to find your favourite subject? Try our AI feature.",
+        inputPlaceholder: "Data Structures..."
+    };
 
-    const roleWise = { title2: "Not able to find your desired role ? Try our AI feature.", inputBox: <input type="text" className="border p-2 rounded" /> };
+    const roleWise = {
+        title2: "Not able to find your desired role? Try our AI feature.",
+        inputPlaceholder: "React Roles..."
+    };
 
-    const companyWise = { title2: "Not able to find your desired company ? Try our AI feature.", inputBox: <input type="text" /> };
+    const companyWise = {
+        title2: "Not able to find your desired company? Try our AI feature.",
+        inputPlaceholder: "Emphasis..."
+    };
+
 
     const navigate = useNavigate()
 
