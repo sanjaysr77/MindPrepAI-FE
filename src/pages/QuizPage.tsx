@@ -23,7 +23,9 @@ interface QuizState {
 export function QuizPage() {
   const location = useLocation();
   const navigate = useNavigate();
-  const { questions } = location.state as { questions: Question[] };
+  const { questions, subjectPath } = location.state as { questions: Question[]
+  subjectPath: string;
+   };
 
   const [quizState, setQuizState] = useState<QuizState>({
     currentIndex: 0,
@@ -52,7 +54,7 @@ export function QuizPage() {
     try {
       // First validate all answers
       const res = await axios.post(`${BACKEND_URL}/v1/quiz/validate`, {
-        subject: "networks",
+        subject: subjectPath,
         answers: quizState.answers   // send all answers to backend
       }, {
         headers: { token }
@@ -68,7 +70,7 @@ export function QuizPage() {
           await axios.post(`${BACKEND_URL}/v1/quiz/attempt`, {
             questionId,
             selectedOption,
-            subject: "networks"
+            subject: subjectPath
           }, {
             headers: { token }
           });
@@ -138,10 +140,12 @@ export function QuizPage() {
 
           <div className="text-center">
             <button
-              className="px-6 py-3 bg-blue-600 text-white rounded-xl hover:bg-blue-700"
+              className="px-6 py-3 bg-blue-600 text-white rounded-xl
+              cursor-pointer transistion duration-200 ease-in-out
+            hover:bg-blue-900 active:scale-95"
               onClick={() => navigate(-1)}
             >
-              Back to Quiz Selection
+              Back to Home Page
             </button>
           </div>
         </div>

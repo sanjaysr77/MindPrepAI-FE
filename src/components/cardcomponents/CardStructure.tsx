@@ -50,7 +50,7 @@ export function CardStructure({ title }: { title: string }) {
 
       toast.success("Quiz loaded!", {id: toastId})
 
-      navigate(`/${subjectPath}`, {state:{questions}});
+      navigate(`/${subjectPath}`, {state:{questions, subjectPath}});
     }
     catch(err){
       toast.error("Failed to load quiz", {id: toastId})
