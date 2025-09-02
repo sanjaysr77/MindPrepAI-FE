@@ -114,7 +114,13 @@ export function CardStructure({ title }: { title: string }) {
 
       <AICard
         title={GENAI.title2}
-        inputBox={<input type="text" className="border p-2 rounded" />}
+        inputBox={
+          <input
+            type="text"
+            placeholder="Search..."
+            className="w-4/5 mb-10 sm:w-3/4 md:w-2/3 p-2 rounded-lg border border-white bg-transparent text-white placeholder-white outline-none"
+          />
+        }
       />
 
       <Modal

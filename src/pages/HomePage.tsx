@@ -26,9 +26,9 @@ export function HomePage() {
 
     const subjectwise = { title2: "Not able to find your subject ? Try our AI feature.", inputBox: <input type="text" className="placeholder-white border p-2 rounded" placeholder="Data Structures"/> };
 
-    const roleWise = { title2: "Not able to find your preffered role ? Try our AI feature.", inputBox: <input type="text" className="border p-2 rounded" /> };
+    const roleWise = { title2: "Not able to find your aspiring role ? Try our AI feature.", inputBox: <input type="text" className="border p-2 rounded" /> };
 
-    const companyWise = { title2: "Not able to find your preffered company ? Try our AI feature.", inputBox: <input type="text" className="border p-2 rounded" /> };
+    const companyWise = { title2: "Not able to find your company ? Try our AI feature.", inputBox: <input type="text"/> };
 
 
     return (
