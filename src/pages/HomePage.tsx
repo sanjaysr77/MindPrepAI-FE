@@ -29,17 +29,20 @@ export function HomePage() {
 
     const subjectwise = {
         title2: "Not able to find your favourite subject? Try our AI feature.",
-        inputPlaceholder: "Data Structures..."
+        inputPlaceholder: "Data Structures...",
+        apiEndpoint: "/v1/genai/subject"
     };
 
     const roleWise = {
         title2: "Not able to find your desired role? Try our AI feature.",
-        inputPlaceholder: "React Roles..."
+        inputPlaceholder: "React Roles...",
+        apiEndpoint: "/v1/genai/role"
     };
 
     const companyWise = {
         title2: "Not able to find your desired company? Try our AI feature.",
-        inputPlaceholder: "Emphasis..."
+        inputPlaceholder: "Emphasis...",
+        apiEndpoint: "/v1/genai/company"
     };
 
 

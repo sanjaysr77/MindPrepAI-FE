@@ -8,6 +8,7 @@ type Subject = {
 type AI = {
     title2: string;
     inputPlaceholder: string;
+    apiEndpoint: string;
 }
 
 type CardContextType = {

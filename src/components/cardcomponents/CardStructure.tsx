@@ -68,7 +68,7 @@ export function CardStructure({ title }: { title: string }) {
     const toastId = toast.loading("Sending input...");
     try {
       const response = await axios.post(
-        `${BACKEND_URL}/v1/ai-input`,
+        `${BACKEND_URL}${GENAI.apiEndpoint}`,
         { input: inputValue },
         { headers: { token: localStorage.getItem("token") } }
       );
