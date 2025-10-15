@@ -1,5 +1,5 @@
 import { useState, useRef } from "react";
-import { AICard } from "./AICard";
+import { AICard } from "./AICardComponents/AICard";
 import { useCardContext } from "./CardContext";
 import { SmallCard } from "./SmallCard";
 import { Swiper, SwiperSlide } from "swiper/react";
@@ -65,6 +65,9 @@ export function CardStructure({ title }: { title: string }) {
       return;
     }
 
+    // console.log("Sending payload:", { input: inputValue });
+    // console.log("Endpoint:", `${BACKEND_URL}${GENAI.apiEndpoint}`);
+
     const toastId = toast.loading("Sending input...");
     try {
       const response = await axios.post(
@@ -75,6 +78,7 @@ export function CardStructure({ title }: { title: string }) {
 
       toast.success("Input sent!", { id: toastId });
       console.log("Backend response:", response.data);
+      navigate("/genai", {state: {data: response.data}});
       inputRef.current.value = ""; 
     } catch (err) {
       toast.error("Failed to send input", { id: toastId });
