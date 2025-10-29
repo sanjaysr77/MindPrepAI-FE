@@ -2,6 +2,7 @@ import { useState, useRef, useMemo } from "react";
 import { useLocation } from "react-router-dom";
 import axios from "axios";
 import { BACKEND_URL } from "../config/config";
+import toast from "react-hot-toast";
 
 export function GenAI() {
   const location = useLocation();
@@ -23,18 +24,26 @@ export function GenAI() {
 
   const [currentIndex, setCurrentIndex] = useState(0);
   const [recording, setRecording] = useState(false);
-  const [answer, setAnswer] = useState("");
+  const [allTranscripts, setAllTranscripts] = useState<string[]>([]);
   const [score, setScore] = useState<number | null>(null);
   const [feedback, setFeedback] = useState<string | null>(null);
   const [allScores, setAllScores] = useState<number[]>([]);
+  const [isFinished, setIsFinished] = useState(false);
+  const [allFeedback, setAllFeedback] = useState<string[]>([]);
+  const [isLoading, setIsLoading] = useState(false);
+  const [isAnsweringLoading, setIsAnsweringLoading] = useState(false);
+  const [isFinishingLoading, setIsFinishingLoading] = useState(false);
   const mediaRecorderRef = useRef<MediaRecorder | null>(null);
   const audioChunksRef = useRef<Blob[]>([]);
   const sessionId = useMemo(() => `${Date.now()}-${Math.random().toString(36).slice(2,8)}`, []);
 
   const handleNext = () => {
+    if (recording) {
+      mediaRecorderRef.current?.stop();
+      setRecording(false);
+    }
     if (currentIndex < questions.length - 1) {
       setCurrentIndex(currentIndex + 1);
-      setAnswer("");
       setScore(null);
       setFeedback(null);
     }
@@ -67,6 +76,7 @@ export function GenAI() {
   };
 
   const sendToBackend = async (audioBlob: Blob) => {
+    setIsAnsweringLoading(true);
     try {
       const formData = new FormData();
       formData.append("file", audioBlob, "audio.webm");
@@ -93,7 +103,11 @@ export function GenAI() {
       );
 
       const { transcript, score: s, feedback: f } = response.data;
-      setAnswer(transcript);
+      setAllTranscripts(prev => {
+        const copy = [...prev];
+        copy[currentIndex] = transcript;
+        return copy;
+      });
       setScore(s);
       setFeedback(f);
       setAllScores(prev => {
@@ -101,12 +115,20 @@ export function GenAI() {
         copy[currentIndex] = s;
         return copy;
       });
+      setAllFeedback(prev => {
+        const copy = [...prev];
+        copy[currentIndex] = f;
+        return copy;
+      });
     } catch (err) {
       console.error("Backend Evaluation Error:", err);
+    } finally {
+      setIsAnsweringLoading(false);
     }
   };
 
   const handleFinish = async () => {
+    setIsFinishingLoading(true);
     try {
       if (allScores.length !== 3) return;
       const token = localStorage.getItem("token");
@@ -122,9 +144,12 @@ export function GenAI() {
       // Optionally show a toast or summary; the server returns total
       const total = res.data?.total as number;
       // Keep UI minimal
-      alert(`Interview complete. Final score: ${total}/50`);
+      toast.success(`Interview complete. Final score: ${total}/50`, { duration: 8000 });
+      setIsFinished(true);
     } catch (e) {
       console.error(e);
+    } finally {
+      setIsFinishingLoading(false);
     }
   };
 
@@ -143,21 +168,27 @@ export function GenAI() {
         className={`px-4 py-2 rounded-lg font-bold mb-4 ${
           recording ? "bg-red-600" : "bg-green-500"
         }`}
+        disabled={isAnsweringLoading}
       >
         {recording ? "Stop Recording" : "Start Recording"}
       </button>
 
-      {answer && (
-        <div className="bg-gray-800 text-white p-4 rounded-lg w-full max-w-xl text-center">
-          <p className="text-sm italic mb-2">Your Answer:</p>
-          <p className="font-semibold">{answer}</p>
-        </div>
+      {isAnsweringLoading && (
+        <div className="text-white text-lg font-semibold mb-4">Evaluating...</div>
       )}
 
-      {score !== null && (
+      {isFinishingLoading && (
+        <div className="text-white text-lg font-semibold mb-4">Finishing Interview...</div>
+      )}
+
+      {isFinished && (
         <div className="bg-gray-700 text-white p-4 rounded-lg w-full max-w-xl text-center mt-4">
-          <p className="font-semibold">Score: {score}</p>
-          {feedback && <p className="text-sm opacity-80 mt-1">{feedback}</p>}
+          <p className="font-semibold">All Scores: {allScores.join(", ")}</p>
+          {allFeedback.map((f, index) => (
+            <p key={index} className="text-sm opacity-80 mt-1">
+              Feedback for question {index + 1}: {f}
+            </p>
+          ))}
         </div>
       )}
 
@@ -166,13 +197,14 @@ export function GenAI() {
           <button
             onClick={handleNext}
             className={`px-4 py-2 rounded-lg font-bold bg-white text-black hover:bg-gray-200`}
+            disabled={isAnsweringLoading}
           >
-            Next
           </button>
         ) : (
           <button
             onClick={handleFinish}
             className={`px-4 py-2 rounded-lg font-bold bg-blue-600 text-white hover:bg-blue-700`}
+            disabled={isFinishingLoading}
           >
             Finish & Save
           </button>
