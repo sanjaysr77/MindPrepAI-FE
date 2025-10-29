@@ -8,6 +8,8 @@ import { QuizPage } from "./pages/QuizPage";
 import { Report } from "./pages/Report";
 import { ProtectedRoute } from "./pages/ProtectedRoute";
 import { GenAI } from "./pages/GenAI";
+import { CompanyAI } from "./pages/CompanyAI";
+import { SubjectAI } from "./pages/SubjectAI";
 
 function App() {
   return (
@@ -22,6 +24,8 @@ function App() {
             <Route path="/:subject" element={<QuizPage />} />
             <Route path="/personalizedreport" element={<Report />} />
             <Route path ="/genai" element = {<GenAI />} />
+            <Route path ="/company-ai" element = {<CompanyAI />} />
+            <Route path ="/subject-ai" element = {<SubjectAI />} />
           </Route>
         </Routes>
       </Layout>
