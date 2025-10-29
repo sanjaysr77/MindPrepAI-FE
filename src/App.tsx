@@ -7,6 +7,7 @@ import { Toaster } from "react-hot-toast";
 import { QuizPage } from "./pages/QuizPage";
 import { Report } from "./pages/Report";
 import { ProtectedRoute } from "./pages/ProtectedRoute";
+import { GenAI } from "./pages/GenAI";
 
 function App() {
   return (
@@ -20,8 +21,8 @@ function App() {
             <Route path="/dashboard" element={<HomePage />} />
             <Route path="/:subject" element={<QuizPage />} />
             <Route path="/personalizedreport" element={<Report />} />
+            <Route path ="/genai" element = {<GenAI />} />
           </Route>
-
         </Routes>
       </Layout>
       <Toaster position="bottom-right" reverseOrder={false} />

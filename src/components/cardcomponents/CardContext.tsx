@@ -7,7 +7,8 @@ type Subject = {
 
 type AI = {
     title2: string;
-    inputBox: ReactNode;
+    inputPlaceholder: string;
+    apiEndpoint: string;
 }
 
 type CardContextType = {
