@@ -155,15 +155,12 @@ export function Report() {
     <div className="min-h-screen px-4 py-10">
       <div className="mx-auto flex w-full max-w-6xl flex-col gap-8">
         <div className="flex flex-col gap-3 text-white">
-          <p className="text-sm uppercase tracking-[0.35em] text-indigo-300/80">
+          <p className="text-sm uppercase tracking-[0.35em] text-indigo-300/80 text-center">
             Personalized Insights
           </p>
-          <h1 className="text-4xl font-bold leading-tight sm:text-5xl">
-            Your Interview Performance Dashboard
+          <h1 className="text-4xl font-bold leading-tight sm:text-5xl text-center">
+            Your Performance Dashboard
           </h1>
-          <p className="text-white/70 text-lg">
-            Scores grouped by role, company, and subject with a quick accuracy snapshot.
-          </p>
         </div>
 
         <div className="grid gap-4 md:grid-cols-3">
