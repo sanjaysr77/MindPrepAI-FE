@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useState } from "react";
 import axios from "axios";
 import { BACKEND_URL } from "../config/config";
+import { Chatbot } from "../components/Chatbot";
 
 type ScoreEntry = {
   category: string;
@@ -84,7 +85,7 @@ export function Report() {
       }
 
       try {
-        const [reportRes, attemptsRes] = await Promise.all([
+        const [reportRes, attemptsRes, syncRes] = await Promise.all([
           axios.get<ReportResponse>(
             `${BACKEND_URL}/v1/report/personalized`,
             { headers: { token } }
@@ -93,10 +94,16 @@ export function Report() {
             `${BACKEND_URL}/v1/report/subject-attempts`,
             { headers: { token } }
           ),
+          axios.post(
+            `${BACKEND_URL}/v1/vectordb/sync-attempts`,
+            {},
+            { headers: { token } }
+          ),
         ]);
 
         console.log("Report Response:", reportRes.data);
         console.log("Attempts Response:", attemptsRes.data);
+        console.log("Vector DB Sync Response:", syncRes.data);
 
         setData(reportRes.data);
         const attempts = attemptsRes.data.subjectAttempts || [];
@@ -184,7 +191,7 @@ export function Report() {
         <section className="rounded-2xl border-2 border-white bg-slate-900 p-5 text-white shadow-lg">
           <div className="mb-6">
             <p className="text-sm text-white/60">Subject Performance</p>
-            <h2 className="text-2xl font-bold">Correct Answers by Subject</h2>
+            <h2 className="text-2xl font-bold">Correct Answers by Categories</h2>
           </div>
 
           {subjectAttempts.length === 0 ? (
@@ -337,6 +344,9 @@ export function Report() {
             </>
           )}
         </section>
+
+        {/* Chatbot Section */}
+        <Chatbot />
       </div>
     </div>
   );

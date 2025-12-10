@@ -1,8 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import { CardProvider } from "../components/cardcomponents/CardContext";
 import { CardStructure } from "../components/cardcomponents/CardStructure";
-import { ComingSoon } from "../components/ComingSoon";
-
 
 export function HomePage() {
 
@@ -63,23 +61,7 @@ export function HomePage() {
     return (
         <div className="p-4 sm:p-6 lg:p-8">
             <div className="flex justify-between items-center">
-                <div className="text-white text-4xl font-bold">
-                    MINDPREP AI
-                </div>
-                <div>
-                    <button className="text-black border border-white rounded-lg p-2 px-4 bg-white font-bold hover:bg-black hover:text-white cursor-pointer
-                    transition duration-200 ease-in-out active:scale-95 mr-4"
-                        onClick={goToReport}
-                    >
-                        Personalized Report
-                    </button>
-                    <button className="text-black border border-white rounded-lg p-2 px-4 bg-white font-bold hover:bg-black hover:text-white cursor-pointer
-                    transition duration-200 ease-in-out active:scale-95"
-                        onClick={logoutUser}
-                    >
-                        Signout
-                    </button>
-                </div>
+
             </div>
             <CardProvider subjects={subjects} GENAI={subjectwise}>
                 <CardStructure title="Subject Wise MCQ's" />
@@ -91,13 +73,6 @@ export function HomePage() {
             <CardProvider subjects={companies} GENAI={companyWise}>
                 <CardStructure title="Company Wise MCQ's" />
             </CardProvider>
-            <ComingSoon
-                text="Resume Analyzer"
-                image="/comingsoon.png" />
-            <ComingSoon
-                text="Mock Interview"
-                image="/comingsoon.png" />
-
         </div>
     )
 }

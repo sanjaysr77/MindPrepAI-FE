@@ -24,18 +24,22 @@ export function CompanyAI() {
 
   const [currentIndex, setCurrentIndex] = useState(0);
   const [recording, setRecording] = useState(false);
+  // @ts-ignore
   const [allTranscripts, setAllTranscripts] = useState<string[]>([]);
+  // @ts-ignore
   const [score, setScore] = useState<number | null>(null);
+  // @ts-ignore
   const [feedback, setFeedback] = useState<string | null>(null);
   const [allScores, setAllScores] = useState<number[]>([]);
   const [isFinished, setIsFinished] = useState(false);
   const [allFeedback, setAllFeedback] = useState<string[]>([]);
+  // @ts-ignore
   const [isLoading, setIsLoading] = useState(false);
   const [isAnsweringLoading, setIsAnsweringLoading] = useState(false);
   const [isFinishingLoading, setIsFinishingLoading] = useState(false);
   const mediaRecorderRef = useRef<MediaRecorder | null>(null);
   const audioChunksRef = useRef<Blob[]>([]);
-  const sessionId = useMemo(() => `${Date.now()}-${Math.random().toString(36).slice(2,8)}`, []);
+  const sessionId = useMemo(() => `${Date.now()}-${Math.random().toString(36).slice(2, 8)}`, []);
 
   const handleNext = () => {
     if (recording) {
@@ -165,9 +169,8 @@ export function CompanyAI() {
 
       <button
         onClick={handleRecord}
-        className={`px-4 py-2 rounded-lg font-bold mb-4 ${
-          recording ? "bg-red-600" : "bg-green-500"
-        }`}
+        className={`px-4 py-2 rounded-lg font-bold mb-4 ${recording ? "bg-red-600" : "bg-green-500"
+          }`}
         disabled={isAnsweringLoading}
       >
         {recording ? "Stop Recording" : "Start Recording"}

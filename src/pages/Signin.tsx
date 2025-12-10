@@ -39,7 +39,7 @@ export function Signin() {
       const jwt = (await response).data.token;
       localStorage.setItem("token", jwt);
       toast.success("Signed in Successfully ")
-      navigate("/dashboard")
+      navigate("/dashboard");
     }
     catch (err) {
       alert("Internal Server Error")
