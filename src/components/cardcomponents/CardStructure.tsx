@@ -78,7 +78,7 @@ export function CardStructure({ title }: { title: string }) {
 
       toast.success("Input sent!", { id: toastId });
       console.log("Backend response:", response.data);
-      navigate("/genai", {state: {data: response.data}});
+      navigate(GENAI.route, {state: {data: response.data}});
       inputRef.current.value = ""; 
     } catch (err) {
       toast.error("Failed to send input", { id: toastId });

@@ -4,12 +4,12 @@ import axios from "axios";
 import { BACKEND_URL } from "../config/config";
 import toast from "react-hot-toast";
 
-export function GenAI() {
+export function CompanyAI() {
   const location = useLocation();
   const state = location.state as { data?: any };
 
   const data = state?.data;
-  const role = data?.role || "Unknown Role";
+  const company = data?.company || "Unknown Company";
   const questions: string[] = data?.questions || [];
 
   if (!data || !questions.length) {
@@ -86,7 +86,7 @@ export function GenAI() {
       formData.append("file", audioBlob, "audio.webm");
       formData.append("question", questions[currentIndex]);
       formData.append("index", String(currentIndex));
-      formData.append("role", role);
+      formData.append("company", company);
       formData.append("sessionId", sessionId);
 
       const token = localStorage.getItem("token");
@@ -96,7 +96,7 @@ export function GenAI() {
       }
 
       const response = await axios.post(
-        `${BACKEND_URL}/v1/genai/role/answer`,
+        `${BACKEND_URL}/v1/genai/company/answer`,
         formData,
         {
           headers: {
@@ -141,8 +141,8 @@ export function GenAI() {
         return;
       }
       const res = await axios.post(
-        `${BACKEND_URL}/v1/genai/role/finish`,
-        { role, scores: allScores, sessionId },
+        `${BACKEND_URL}/v1/genai/company/finish`,
+        { company, scores: allScores, sessionId },
         { headers: { token } }
       );
       // Optionally show a toast or summary; the server returns total
@@ -160,7 +160,7 @@ export function GenAI() {
   return (
     <div className="flex flex-col items-center justify-center min-h-screen bg-black p-4">
       <h1 className="text-2xl md:text-3xl text-white font-bold mb-6 text-center">
-        {role} Quiz
+        {company} Quiz
       </h1>
 
       <div className="bg-gray-900 text-white p-6 rounded-lg shadow-lg max-w-xl w-full mb-6 text-center">
