@@ -15,12 +15,39 @@ interface ChatSource {
     similarity: number;
 }
 
+interface YouTubeVideo {
+    id: string;
+    title: string;
+    channelTitle: string;
+    description: string;
+    thumbnailUrl: string;
+    videoUrl: string;
+    duration: string;
+    viewCount: string;
+}
+
+interface Documentation {
+    name: string;
+    url: string;
+    description: string;
+    type: "official" | "community";
+}
+
+interface LearningResource {
+    subject: string;
+    accuracy: number;
+    tutorials: YouTubeVideo[];
+    documentation: Documentation[];
+}
+
 export function Chatbot() {
     const [messages, setMessages] = useState<ChatMessage[]>([]);
     const [input, setInput] = useState("");
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState<string | null>(null);
     const [showSources, setShowSources] = useState<ChatSource[] | null>(null);
+    const [learningResources, setLearningResources] = useState<LearningResource[]>([]);
+    const [showResources, setShowResources] = useState(false);
     const messagesEndRef = useRef<HTMLDivElement>(null);
 
     const scrollToBottom = () => {
@@ -29,7 +56,28 @@ export function Chatbot() {
 
     useEffect(() => {
         scrollToBottom();
-    }, [messages]);
+    }, [messages, showResources]);
+
+    // Fetch learning resources on component mount
+    useEffect(() => {
+        fetchLearningResources();
+    }, []);
+
+    const fetchLearningResources = async () => {
+        try {
+            const token = localStorage.getItem("token");
+            if (!token) return;
+
+            const response = await axios.get(
+                `${BACKEND_URL}/v1/report/learning-resources`,
+                { headers: { token } }
+            );
+
+            setLearningResources(response.data.resources || []);
+        } catch (err) {
+            console.error("Error fetching learning resources:", err);
+        }
+    };
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
@@ -91,6 +139,10 @@ export function Chatbot() {
         }
     };
 
+    const toggleResources = () => {
+        setShowResources(!showResources);
+    };
+
     return (
         <section className="mt-8 rounded-2xl border-2 border-white bg-slate-900 p-6 text-white shadow-lg">
             <div className="mb-6">
@@ -120,8 +172,8 @@ export function Chatbot() {
                                 >
                                     <div
                                         className={`max-w-xs lg:max-w-md px-4 py-2 rounded-lg ${message.role === "user"
-                                                ? "bg-indigo-600 text-white"
-                                                : "bg-white/10 text-white/90"
+                                            ? "bg-indigo-600 text-white"
+                                            : "bg-white/10 text-white/90"
                                             }`}
                                     >
                                         <p className="text-sm">{message.content}</p>
@@ -168,6 +220,96 @@ export function Chatbot() {
                 {error && !loading && (
                     <div className="bg-red-500/10 border border-red-500/30 rounded-lg p-3">
                         <p className="text-xs text-red-300">{error}</p>
+                    </div>
+                )}
+
+                {/* Learning Resources Toggle */}
+                {learningResources.length > 0 && (
+                    <button
+                        onClick={toggleResources}
+                        className="w-full px-4 py-2 rounded-lg bg-gradient-to-r from-yellow-600 to-orange-600 text-white font-medium hover:from-yellow-700 hover:to-orange-700 transition-all flex items-center justify-center gap-2"
+                    >
+                        {showResources ? "Hide" : "Show"} 📚 Learning Resources for Weak Areas ({learningResources.length})
+                    </button>
+                )}
+
+                {/* Learning Resources Section */}
+                {showResources && learningResources.length > 0 && (
+                    <div className="bg-gradient-to-br from-yellow-500/20 to-orange-500/20 border border-yellow-500/40 rounded-lg p-4 max-h-96 overflow-y-auto">
+                        <p className="text-sm font-semibold text-yellow-300 mb-4">📚 Curated Learning Resources for Your Weak Areas</p>
+
+                        {learningResources.map((resource, idx) => (
+                            <div key={idx} className="mb-6 last:mb-0 pb-6 last:pb-0 border-b border-yellow-500/20 last:border-b-0">
+                                {/* Subject Header */}
+                                <div className="flex items-center gap-3 mb-4">
+                                    <div className="flex-1">
+                                        <h3 className="text-lg font-bold text-yellow-300 capitalize">{resource.subject}</h3>
+                                        <p className="text-sm text-yellow-200">
+                                            Current Accuracy: <span className="font-semibold text-red-300">{resource.accuracy}%</span>
+                                            <span className="text-xs text-yellow-300 ml-2">⚠️ Needs Improvement</span>
+                                        </p>
+                                    </div>
+                                </div>
+
+                                {/* YouTube Tutorials */}
+                                {resource.tutorials.length > 0 && (
+                                    <div className="mb-4">
+                                        <p className="text-xs font-semibold text-orange-300 mb-2">🎥 Recommended YouTube Tutorials:</p>
+                                        <div className="space-y-2">
+                                            {resource.tutorials.map((video, vidIdx) => (
+                                                <a
+                                                    key={vidIdx}
+                                                    href={video.videoUrl}
+                                                    target="_blank"
+                                                    rel="noopener noreferrer"
+                                                    className="flex gap-2 p-2 rounded bg-slate-800/50 hover:bg-slate-700/70 transition-all group"
+                                                >
+                                                    <img
+                                                        src={video.thumbnailUrl}
+                                                        alt={video.title}
+                                                        className="w-16 h-12 rounded object-cover flex-shrink-0"
+                                                    />
+                                                    <div className="flex-1 min-w-0">
+                                                        <p className="text-xs font-semibold text-white group-hover:text-yellow-300 transition-colors line-clamp-2">
+                                                            {video.title}
+                                                        </p>
+                                                        <p className="text-xs text-white/60">
+                                                            {video.channelTitle} • {video.duration}
+                                                        </p>
+                                                    </div>
+                                                </a>
+                                            ))}
+                                        </div>
+                                    </div>
+                                )}
+
+                                {/* Documentation Links */}
+                                {resource.documentation.length > 0 && (
+                                    <div>
+                                        <p className="text-xs font-semibold text-blue-300 mb-2">📖 Official Documentation & Guides:</p>
+                                        <div className="space-y-1">
+                                            {resource.documentation.map((doc, docIdx) => (
+                                                <a
+                                                    key={docIdx}
+                                                    href={doc.url}
+                                                    target="_blank"
+                                                    rel="noopener noreferrer"
+                                                    className="flex items-start gap-2 p-2 rounded bg-blue-500/10 hover:bg-blue-500/20 transition-all group"
+                                                >
+                                                    <span className="text-xs mt-0.5">{doc.type === "official" ? "✅" : "📚"}</span>
+                                                    <div className="flex-1 min-w-0">
+                                                        <p className="text-xs font-semibold text-blue-200 group-hover:text-blue-100 transition-colors">
+                                                            {doc.name}
+                                                        </p>
+                                                        <p className="text-xs text-blue-300/80 line-clamp-1">{doc.description}</p>
+                                                    </div>
+                                                </a>
+                                            ))}
+                                        </div>
+                                    </div>
+                                )}
+                            </div>
+                        ))}
                     </div>
                 )}
 
